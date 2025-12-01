@@ -38,11 +38,12 @@ internal class Day1Solver : ISolver
 		int numZeroes = 0;
 		foreach(int move in moves)
 		{
+			int prevDial = mDialPosition;
 			ApplyMovement(move);
 
 			if (mDialPosition == 0)
 			{
-				Console.WriteLine($"Dial {mDialPosition} from move {move}");
+				Console.WriteLine($"Dial {prevDial} -> {mDialPosition} from move {move}");
 				numZeroes++;
 			}
 		}
