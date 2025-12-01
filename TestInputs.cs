@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2025;
 
-record TestData(string input, string expected);
+record TestData(string input, string expectedP1, string expectedP2);
 
 static class TestInputs
 {
@@ -18,11 +18,12 @@ static class TestInputs
 			R14
 			L82
 			""", 
-			expected: "3"),
+			expectedP1: "3",
+			expectedP2: "6"),
 	};
 
-	public static TestData GetTest(int day, int part)
+	public static TestData GetTest(int day)
 	{
-		return sTestInputs[2*(day-1) + part-1];
+		return sTestInputs[day-1];
 	}
 }

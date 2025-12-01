@@ -34,16 +34,13 @@ internal class Day1Solver : ISolver
 		List<string> lines = InputParser.GetNonEmptyLines(input);
 		List<int> moves = ParseDialMovements(lines);
 
-		Console.WriteLine($"Start at {mDialPosition} with {moves.Count} moves");
 		int numZeroes = 0;
 		foreach(int move in moves)
 		{
-			int prevDial = mDialPosition;
 			ApplyMovement(move);
 
 			if (mDialPosition == 0)
 			{
-				Console.WriteLine($"Dial {prevDial} -> {mDialPosition} from move {move}");
 				numZeroes++;
 			}
 		}
@@ -58,7 +55,33 @@ internal class Day1Solver : ISolver
 	/// </summary>
 	public string SolvePart2(string input)
 	{
-		throw new NotImplementedException();
+		List<string> lines = InputParser.GetNonEmptyLines(input);
+		List<int> moves = ParseDialMovements(lines);
+
+		int numZeroes = 0;
+		foreach (int move in moves)
+		{
+			int remaining = move;
+			while(remaining > 0) // positive move
+			{
+				ApplyMovement(1);
+				if (mDialPosition == 0) 
+					numZeroes += 1;
+
+				remaining--;
+			}
+
+			while (remaining < 0) // negative move
+			{
+				ApplyMovement(-1);
+				if (mDialPosition == 0) 
+					numZeroes += 1;
+
+				remaining++;
+			}
+		}
+
+		return numZeroes.ToString();
 	}
 
 	#endregion rSolverMain
@@ -67,11 +90,11 @@ internal class Day1Solver : ISolver
 
 
 
-	#region rUtil
+		#region rUtil
 
-	/// <summary>
-	/// Parse the dial movements
-	/// </summary>
+		/// <summary>
+		/// Parse the dial movements
+		/// </summary>
 	private List<int> ParseDialMovements(List<string> list)
 	{
 		List<int> result = new();

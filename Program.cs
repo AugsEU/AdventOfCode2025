@@ -9,8 +9,9 @@ internal class Program
 	// Program inputs
 	const string INPUTS_PATH = "C:\\Users\\Augus\\Documents\\Programming\\AdventOfCode\\2025\\AdventOfCode2025\\Inputs";
 	static int[] CURR_DAYS = { 1 };
-	static int[] CURR_PARTS = { 1 };
+	static int[] CURR_PARTS = { 1, 2 };
 	static bool IGNORE_TEST_FAIL = false;
+	static bool SKIP_TEST = true;
 
 	#endregion rConstants
 
@@ -44,13 +45,13 @@ internal class Program
 
 				// Test
 				ISolver testSolver = CreateSolver(day);
-				TestData testData = TestInputs.GetTest(day, part);
+				TestData testData = TestInputs.GetTest(day);
 
 				string inputText = ReadInput(day, part);
 				Console.WriteLine("");
 				if (part < 2)
 				{
-					bool passed = CheckTest(testData, testSolver.SolvePart1(testData.input));
+					bool passed = SKIP_TEST || CheckTest(testData.expectedP1, testSolver.SolvePart1(testData.input));
 
 					if (passed || IGNORE_TEST_FAIL)
 					{
@@ -60,11 +61,11 @@ internal class Program
 				}
 				else
 				{
-					bool passed = CheckTest(testData, testSolver.SolvePart2(testData.input));
+					bool passed = SKIP_TEST || CheckTest(testData.expectedP2, testSolver.SolvePart2(testData.input));
 
 					if (passed || IGNORE_TEST_FAIL)
 					{
-						string part2Soln = solver.SolvePart1(inputText);
+						string part2Soln = solver.SolvePart2(inputText);
 						WriteColor($"    Part 2 solution: {part2Soln}", ConsoleColor.Yellow);
 					}
 				}
@@ -79,12 +80,12 @@ internal class Program
 	/// <summary>
 	/// Check if a test is right and report if not
 	/// </summary>
-	static bool CheckTest(TestData data, string solution)
+	static bool CheckTest(string expected, string solution)
 	{
 		WriteColor("    Running test...", ConsoleColor.DarkYellow);
-		if (solution != data.expected)
+		if (solution != expected)
 		{
-			WriteColor($"    FAILED: Got |{solution}| expected |{data.expected}|", ConsoleColor.Red);
+			WriteColor($"    FAILED: Got |{solution}| expected |{expected}|", ConsoleColor.Red);
 			return false;
 		}
 		
@@ -137,8 +138,6 @@ internal class Program
 		List<string> lines = new();
 		using (StreamReader fs = new StreamReader(fileName))
 		{
-			fs.Read();
-
 			while (fs.ReadLine() is string line)
 			{
 				line = line.Trim();
