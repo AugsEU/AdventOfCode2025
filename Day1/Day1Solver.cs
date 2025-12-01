@@ -5,22 +5,6 @@
 /// </summary>
 internal class Day1Solver : ISolver
 {
-	#region rTypes
-
-	/// <summary>
-	/// Represents a movement of the dial.
-	/// </summary>
-	struct DialMove(int amount, bool isRight)
-	{
-		public int mMovement = isRight ? amount : -amount;
-	}
-
-	#endregion rTypes
-
-
-
-
-
 	#region rConstants
 
 	const int NUM_DIAL_POSITIONS = 100;
@@ -48,18 +32,17 @@ internal class Day1Solver : ISolver
 	public string SolvePart1(string input)
 	{
 		List<string> lines = InputParser.GetNonEmptyLines(input);
-		List<DialMove> moves = ParseDialMovements(lines);
+		List<int> moves = ParseDialMovements(lines);
 
 		Console.WriteLine($"Start at {mDialPosition} with {moves.Count} moves");
 		int numZeroes = 0;
-		foreach(DialMove move in moves)
+		foreach(int move in moves)
 		{
 			ApplyMovement(move);
-			//
 
 			if (mDialPosition == 0)
 			{
-				Console.WriteLine($"Dial {mDialPosition} from move {move.mMovement}");
+				Console.WriteLine($"Dial {mDialPosition} from move {move}");
 				numZeroes++;
 			}
 		}
@@ -88,16 +71,18 @@ internal class Day1Solver : ISolver
 	/// <summary>
 	/// Parse the dial movements
 	/// </summary>
-	private List<DialMove> ParseDialMovements(List<string> list)
+	private List<int> ParseDialMovements(List<string> list)
 	{
-		List<DialMove> result = new();
+		List<int> result = new();
 		foreach (string line in list)
 		{
-			char dirChar = line[0];
-			string moveStr = line.Substring(1);
+			string sanLine = line.Trim().ToLower();
+
+			char dirChar = sanLine[0];
+			string moveStr = sanLine.Substring(1);
 			int moveNum = int.Parse(moveStr); // not safe on different languages..
 
-			result.Add(new DialMove(moveNum, isRight: dirChar == 'R'));
+			result.Add(dirChar == 'r' ? moveNum : -moveNum);
 		}
 
 		return result;
@@ -109,9 +94,9 @@ internal class Day1Solver : ISolver
 	/// <summary>
 	/// Apply a dial movement to the current dial position
 	/// </summary>
-	private void ApplyMovement(DialMove move)
+	private void ApplyMovement(int move)
 	{
-		mDialPosition += move.mMovement;
+		mDialPosition += move;
 
 		// Rotate under 0
 		while (mDialPosition < 0) mDialPosition += NUM_DIAL_POSITIONS;
