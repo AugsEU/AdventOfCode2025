@@ -8,10 +8,10 @@ internal class Program
 
 	// Program inputs
 	const string INPUTS_PATH = "C:\\Users\\Augus\\Documents\\Programming\\AdventOfCode\\2025\\AdventOfCode2025\\Inputs";
-	static int[] CURR_DAYS = { 1 };
+	static int[] CURR_DAYS = { 2 };
 	static int[] CURR_PARTS = { 1, 2 };
-	static bool IGNORE_TEST_FAIL = false;
-	static bool SKIP_TEST = true;
+
+	static bool SKIP_TEST = false;
 
 	#endregion rConstants
 
@@ -53,7 +53,7 @@ internal class Program
 				{
 					bool passed = SKIP_TEST || CheckTest(testData.expectedP1, testSolver.SolvePart1(testData.input));
 
-					if (passed || IGNORE_TEST_FAIL)
+					if (passed)
 					{
 						string part1Soln = solver.SolvePart1(inputText);
 						WriteColor($"    Part 1 solution: {part1Soln}", ConsoleColor.Yellow);
@@ -63,7 +63,7 @@ internal class Program
 				{
 					bool passed = SKIP_TEST || CheckTest(testData.expectedP2, testSolver.SolvePart2(testData.input));
 
-					if (passed || IGNORE_TEST_FAIL)
+					if (passed)
 					{
 						string part2Soln = solver.SolvePart2(inputText);
 						WriteColor($"    Part 2 solution: {part2Soln}", ConsoleColor.Yellow);
@@ -163,6 +163,8 @@ internal class Program
 		{
 			case 1:
 				return new Day1Solver();
+			case 2:
+				return new Day2Solver();
 			default:
 				break;
 		}
