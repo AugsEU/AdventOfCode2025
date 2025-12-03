@@ -113,7 +113,6 @@ internal class Day2Solver : ISolver
 					bool isRepeat = IsNRepeatInt(i, n);
 					if (isRepeat)
 					{
-						Console.WriteLine($"Found {i} as a {n} repeater");
 						sum += i;
 						break;
 					}

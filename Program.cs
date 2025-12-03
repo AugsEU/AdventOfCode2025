@@ -8,7 +8,7 @@ internal class Program
 
 	// Program inputs
 	const string INPUTS_PATH = "C:\\Users\\Augus\\Documents\\Programming\\AdventOfCode\\2025\\AdventOfCode2025\\Inputs";
-	static int[] CURR_DAYS = { 2 };
+	static int[] CURR_DAYS = { 3 };
 	static int[] CURR_PARTS = { 1, 2 };
 
 	static bool SKIP_TEST = false;
@@ -134,7 +134,14 @@ internal class Program
 	/// </summary>
 	static string ReadInput(int day, int part)
 	{
-		string fileName = Path.Join(INPUTS_PATH, $"/Day{day}-{part}.txt");
+		string altFileName = Path.Join(INPUTS_PATH, $"/Day{day}-{part}.txt");
+		string fileName = Path.Join(INPUTS_PATH, $"/Day{day}.txt");
+
+		if(File.Exists(altFileName))
+		{
+			fileName = altFileName;
+		}
+
 		List<string> lines = new();
 		using (StreamReader fs = new StreamReader(fileName))
 		{
@@ -165,6 +172,8 @@ internal class Program
 				return new Day1Solver();
 			case 2:
 				return new Day2Solver();
+			case 3:
+				return new Day3Solver();
 			default:
 				break;
 		}

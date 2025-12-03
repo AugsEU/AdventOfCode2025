@@ -27,6 +27,14 @@ static class TestInputs
 			""",
 			expectedP1: "1227775554",
 			expectedP2: "4174379265"),
+		new TestData("""
+			987654321111111
+			811111111111119
+			234234234234278
+			818181911112111
+			""",
+			expectedP1: "357",
+			expectedP2: "3121910778619"),
 	};
 
 	public static TestData GetTest(int day)
