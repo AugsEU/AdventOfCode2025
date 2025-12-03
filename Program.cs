@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 
 namespace AdventOfCode2025;
 
@@ -34,6 +35,13 @@ internal class Program
 	/// <param name="args"></param>
 	static void Main(string[] args)
 	{
+		Stopwatch sw = new();
+		bool timeSoln = Stopwatch.IsHighResolution;
+		if(!timeSoln)
+		{
+			Console.WriteLine("Cannot time with high precision \n");
+		}
+
 		for (int d = 0; d < CURR_DAYS.Length; d++)
 		{
 			int day = CURR_DAYS[d];
@@ -46,17 +54,22 @@ internal class Program
 				// Test
 				ISolver testSolver = CreateSolver(day);
 				TestData testData = TestInputs.GetTest(day);
-
+				
 				string inputText = ReadInput(day, part);
 				Console.WriteLine("");
+
+				sw.Reset();
 				if (part < 2)
 				{
 					bool passed = SKIP_TEST || CheckTest(testData.expectedP1, testSolver.SolvePart1(testData.input));
 
 					if (passed)
 					{
+						sw.Start();
 						string part1Soln = solver.SolvePart1(inputText);
-						WriteColor($"    Part 1 solution: {part1Soln}", ConsoleColor.Yellow);
+						sw.Stop();
+
+						WriteColor($"    Part 1 solution: {part1Soln} in {sw.Elapsed.TotalMilliseconds}ms\n", ConsoleColor.Yellow);
 					}
 				}
 				else
@@ -65,8 +78,11 @@ internal class Program
 
 					if (passed)
 					{
+						sw.Start();
 						string part2Soln = solver.SolvePart2(inputText);
-						WriteColor($"    Part 2 solution: {part2Soln}", ConsoleColor.Yellow);
+						sw.Stop();
+
+						WriteColor($"    Part 2 solution: {part2Soln} in {sw.Elapsed.TotalMilliseconds}ms\n", ConsoleColor.Yellow);
 					}
 				}
 			}

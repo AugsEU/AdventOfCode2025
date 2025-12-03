@@ -4,6 +4,8 @@ internal class Day3Solver : ISolver
 {
 	#region rMembers
 
+	List<char> mBestDigitsCache = new List<char>();
+
 	#endregion rMembers
 
 
@@ -28,18 +30,28 @@ internal class Day3Solver : ISolver
 
 	long FindNDigitBank(string bank, int numDigits)
 	{
-		List<char> bestDigits = new List<char>();
 		int currSearchHead = 0;
-
+		mBestDigitsCache.Clear();
 		for (int d = 0; d < numDigits; d++)
 		{
 			int bestDigitIdx = FindBestDigitIndex(currSearchHead, numDigits - d, bank);
 			currSearchHead = bestDigitIdx + 1;
-			bestDigits.Add(bank[bestDigitIdx]);
+			mBestDigitsCache.Add(bank[bestDigitIdx]);
 		}
 
-		string fullNumStr = String.Concat(bestDigits);
-		return long.Parse(fullNumStr);
+		//string fullNumStr = String.Concat(mBestDigitsCache);
+		return ParseDigitCache();
+	}
+
+	long ParseDigitCache()
+	{
+		long res = 0;
+		for(int i = 0; i < mBestDigitsCache.Count; i++)
+		{
+			res += (long)(mBestDigitsCache[i] - '0');
+			res *= 10;
+		}
+		return res/10;
 	}
 
 	#endregion rUtil
