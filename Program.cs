@@ -9,10 +9,10 @@ internal class Program
 
 	// Program inputs
 	const string INPUTS_PATH = "C:\\Users\\Augus\\Documents\\Programming\\AdventOfCode\\2025\\AdventOfCode2025\\Inputs";
-	static int[] CURR_DAYS = { 4 };
+	static int[] CURR_DAYS = { 5 };
 	static int[] CURR_PARTS = { 1, 2 };
 
-	static bool SKIP_TEST = false;
+	static bool SKIP_TEST = true;
 
 	#endregion rConstants
 
@@ -163,12 +163,8 @@ internal class Program
 		{
 			while (fs.ReadLine() is string line)
 			{
-				line = line.Trim();
-
-				if (line.Length != 0)
-				{
-					lines.Add(line);
-				}
+				line = line.Trim().Replace("\r\n", "\n");
+				lines.Add(line);
 			}
 		}
 
@@ -192,6 +188,8 @@ internal class Program
 				return new Day3Solver();
 			case 4:
 				return new Day4Solver();
+			case 5:
+				return new Day5Solver();
 			default:
 				break;
 		}
