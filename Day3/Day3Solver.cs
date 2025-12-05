@@ -18,6 +18,10 @@ internal class Day3Solver : ISolver
 		for(int i = startIdx+1; i <= bank.Length - numDigitsInNumber; i++)
 		{
 			char thisChar = bank[i];
+			if(thisChar == '9')
+			{
+				return i;
+			}
 			if(thisChar > bestChar)
 			{
 				bestChar = thisChar;
@@ -39,7 +43,6 @@ internal class Day3Solver : ISolver
 			mBestDigitsCache.Add(bank[bestDigitIdx]);
 		}
 
-		//string fullNumStr = String.Concat(mBestDigitsCache);
 		return ParseDigitCache();
 	}
 
