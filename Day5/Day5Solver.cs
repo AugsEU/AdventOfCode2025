@@ -89,7 +89,7 @@ internal class Day5Solver : ISolver
 	{
 		ParseInput(input);
 
-		int numValid = 0;
+		long numValid = 0;
 		foreach(long ingredient in mIngredients)
 		{
 			if(IngredientIsValid(ingredient))
