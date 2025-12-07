@@ -9,7 +9,7 @@ internal class Program
 
 	// Program inputs
 	const string INPUTS_PATH = "C:\\Users\\Augus\\Documents\\Programming\\AdventOfCode\\2025\\AdventOfCode2025\\Inputs";
-	static int[] CURR_DAYS = { 6 };
+	static int[] CURR_DAYS = { 7 };
 	static int[] CURR_PARTS = { 1, 2 };
 
 	static bool SKIP_TEST = false;
@@ -192,6 +192,8 @@ internal class Program
 				return new Day5Solver();
 			case 6:
 				return new Day6Solver();
+			case 7:
+				return new Day7Solver();
 			default:
 				break;
 		}

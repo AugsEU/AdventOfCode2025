@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2025;
 
-internal class Grid<T> where T : struct
+internal class Grid<T> where T : struct, IEquatable<T>
 {
 	T[,] mValues;
 	T mOobDefault;
@@ -51,11 +51,22 @@ internal class Grid<T> where T : struct
 		{
 			for(int y = 0; y < h; y++)
 			{
-				ints[x, y] = charGrid.GetAt(x, y) - '0';
+				ints[x, y] = charGrid.Get(x, y) - '0';
 			}
 		}
 
 		return new Grid<int>(ints, oobDefault);
+	}
+
+	public Grid<T> CreateCopy()
+	{
+		T[,]? copyValues = mValues.Clone() as T[,];
+		if(copyValues is T[,] ret)
+		{
+			return new Grid<T>(ret, mOobDefault);
+		}
+
+		throw new Exception("Cannot create clone");
 	}
 
 	public int GetWidth()
@@ -68,13 +79,13 @@ internal class Grid<T> where T : struct
 		return mValues.GetLength(1);
 	}
 
-	public T GetAt(int x, int y)
+	public T Get(int x, int y)
 	{
 		if(x < 0 || x >= GetWidth())
 		{
 			return mOobDefault;
 		}
-		if (y < 0 || y >= GetWidth())
+		if (y < 0 || y >= GetHeight())
 		{
 			return mOobDefault;
 		}
@@ -84,7 +95,7 @@ internal class Grid<T> where T : struct
 
 	public T GetAt((int, int) coords)
 	{
-		return GetAt(coords.Item1, coords.Item2);
+		return Get(coords.Item1, coords.Item2);
 	}
 
 	public void Set(int x, int y, T value)
@@ -97,7 +108,18 @@ internal class Grid<T> where T : struct
 		mValues[coords.Item1, coords.Item2] = value;
 	}
 
-	public override string ToString()
+	public (int, int)? FindFirst(T value)
+	{
+		foreach((int x, int y) in ColsRows())
+		{
+			if (mValues[x, y].Equals(value))
+				return (x, y);
+		}
+
+		return null;
+	}
+
+	public string ToString(int spacing = 0)
 	{
 		string gridStr = "";
 
@@ -106,7 +128,17 @@ internal class Grid<T> where T : struct
 		{
 			for (int x = 0; x < GetWidth(); x++)
 			{
-				gridStr += mValues[x, y].ToString();
+				if (mValues[x, y].ToString() is string vStr)
+				{
+					if (spacing != 0)
+					{
+						Debug.Assert(vStr.Length <= spacing, $"Cannot space string that is too long {vStr}");
+						string spacer = new string(' ', spacing- vStr.Length);
+						vStr += spacer;
+					}
+
+					gridStr += vStr;
+				}
 			}
 			gridStr += "\n";
 		}
@@ -127,25 +159,25 @@ internal class Grid<T> where T : struct
 
 	public IEnumerable<T> GetAdjacent(int x, int y)
 	{
-		yield return GetAt(x - 1, y);
-		yield return GetAt(x - 1, y - 1);
-		yield return GetAt(x + 0, y - 1);
-		yield return GetAt(x + 1, y - 1);
-		yield return GetAt(x + 1, y);
-		yield return GetAt(x + 1, y + 1);
-		yield return GetAt(x + 0, y + 1);
-		yield return GetAt(x - 1, y + 1);
+		yield return Get(x - 1, y);
+		yield return Get(x - 1, y - 1);
+		yield return Get(x + 0, y - 1);
+		yield return Get(x + 1, y - 1);
+		yield return Get(x + 1, y);
+		yield return Get(x + 1, y + 1);
+		yield return Get(x + 0, y + 1);
+		yield return Get(x - 1, y + 1);
 	}
 
 	public IEnumerable<T> GetAdjacent((int, int) coords)
 	{
-		yield return GetAt(coords.Item1 - 1, coords.Item2);
-		yield return GetAt(coords.Item1 - 1, coords.Item2 - 1);
-		yield return GetAt(coords.Item1 + 0, coords.Item2 - 1);
-		yield return GetAt(coords.Item1 + 1, coords.Item2 - 1);
-		yield return GetAt(coords.Item1 + 1, coords.Item2);
-		yield return GetAt(coords.Item1 + 1, coords.Item2 + 1);
-		yield return GetAt(coords.Item1 + 1, coords.Item2 + 1);
-		yield return GetAt(coords.Item1 - 1, coords.Item2 + 1);
+		yield return Get(coords.Item1 - 1, coords.Item2);
+		yield return Get(coords.Item1 - 1, coords.Item2 - 1);
+		yield return Get(coords.Item1 + 0, coords.Item2 - 1);
+		yield return Get(coords.Item1 + 1, coords.Item2 - 1);
+		yield return Get(coords.Item1 + 1, coords.Item2);
+		yield return Get(coords.Item1 + 1, coords.Item2 + 1);
+		yield return Get(coords.Item1 + 1, coords.Item2 + 1);
+		yield return Get(coords.Item1 - 1, coords.Item2 + 1);
 	}
 }

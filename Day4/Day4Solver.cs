@@ -29,7 +29,7 @@ internal class Day4Solver : ISolver
 		{
 			for (int y = 0; y < grid.GetHeight(); y++)
 			{
-				if(grid.GetAt(x,y) == '@' && CanBeAccessed(grid, x, y, 4))
+				if(grid.Get(x,y) == '@' && CanBeAccessed(grid, x, y, 4))
 				{
 					total++;
 				}
@@ -54,7 +54,7 @@ internal class Day4Solver : ISolver
 			{
 				for (int y = 0; y < grid.GetHeight(); y++)
 				{
-					if (grid.GetAt(x, y) == '@' && CanBeAccessed(grid, x, y, 4))
+					if (grid.Get(x, y) == '@' && CanBeAccessed(grid, x, y, 4))
 					{
 						toRemove.Add((x, y));
 					}
