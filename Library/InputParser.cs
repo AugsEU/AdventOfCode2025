@@ -50,4 +50,23 @@ static class InputParser
 
 		return (Int64.Parse(ranges[0]), Int64.Parse(ranges[1]));
 	}
+
+	public static Point3 ParseLineAsPoint3(string line)
+	{
+		string[] numStrs = line.Split(",");
+		Debug.Assert(numStrs.Length == 3, $"Invalid vector {line}");
+		return new Point3(long.Parse(numStrs[0]), long.Parse(numStrs[1]), long.Parse(numStrs[2]));
+	}
+
+	public static List<Point3> ParsePoint3List(string input)
+	{
+		List<Point3> res = new();
+		List<string> lines = GetNonEmptyLines(input);
+		foreach(string line in lines)
+		{
+			res.Add(ParseLineAsPoint3(line));
+		}
+
+		return res;
+	}
 }

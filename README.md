@@ -2,6 +2,8 @@
 
 C# solutions for advent of code 2025 https://adventofcode.com/2025
 
+No google or ChatGPT used.
+
 Solutions:
 
     Day 1 **
@@ -11,3 +13,4 @@ Solutions:
     Day 5 **
     Day 6 **
     Day 7 **
+    Day 8 **
