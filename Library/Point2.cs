@@ -29,12 +29,19 @@ struct Point2(long x, long y) : IEquatable<Point2>
 
 	public float DistF(Point2 other)
 	{
-		return MathF.Sqrt(mX * other.mX + mY * other.mY);
+		Point2 dt = this - other;
+		return MathF.Sqrt(dt.mX * dt.mX + dt.mY * dt.mY);
 	}
 
 	public long DistSqI(Point2 other)
 	{
-		return mX * other.mX + mY * other.mY;
+		Point2 dt = this - other;
+		return dt.mX * dt.mX + dt.mY * dt.mY;
+	}
+
+	public override string ToString()
+	{
+		return $"({mX}, {mY})";
 	}
 
 	#endregion rUtil

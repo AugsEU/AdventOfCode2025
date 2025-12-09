@@ -69,4 +69,23 @@ static class InputParser
 
 		return res;
 	}
+
+	public static Point2 ParseLineAsPoint2(string line)
+	{
+		string[] numStrs = line.Split(",");
+		Debug.Assert(numStrs.Length == 2, $"Invalid vector {line}");
+		return new Point2(long.Parse(numStrs[0]), long.Parse(numStrs[1]));
+	}
+
+	public static List<Point2> ParsePoint2List(string input)
+	{
+		List<Point2> res = new();
+		List<string> lines = GetNonEmptyLines(input);
+		foreach (string line in lines)
+		{
+			res.Add(ParseLineAsPoint2(line));
+		}
+
+		return res;
+	}
 }

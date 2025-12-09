@@ -116,6 +116,18 @@ static class TestInputs
 			""",
 			expectedP1: "40",
 			expectedP2: "25272"),
+		new TestData("""
+			7,1
+			11,1
+			11,7
+			9,7
+			9,5
+			2,5
+			2,3
+			7,3
+			""",
+			expectedP1: "50",
+			expectedP2: "24"),
 	};
 
 	public static TestData GetTest(int day)
