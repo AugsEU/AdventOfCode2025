@@ -10,7 +10,7 @@ internal class Program
 	// Program inputs
 	const string INPUTS_PATH = "C:\\Users\\Augus\\Documents\\Programming\\AdventOfCode\\2025\\AdventOfCode2025\\Inputs";
 	static int[] CURR_DAYS = { 10 };
-	static int[] CURR_PARTS = { 1 };
+	static int[] CURR_PARTS = { 2 };
 
 	static bool SKIP_TEST = false;
 

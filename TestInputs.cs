@@ -134,7 +134,7 @@ static class TestInputs
 			[.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}
 			""",
 			expectedP1: "7",
-			expectedP2: "=="),
+			expectedP2: "33"),
 	};
 
 	public static TestData GetTest(int day)

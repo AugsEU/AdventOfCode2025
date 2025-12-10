@@ -18,6 +18,19 @@ internal class Day10Solver : ISolver
 
 	public string SolvePart2(string input)
 	{
-		throw new NotImplementedException();
+		long sum = 0;
+		long done = 0;
+		List<string> lines = InputParser.GetNonEmptyLines(input);
+		foreach (string line in lines)
+		{
+			SwitchBoard sb = new SwitchBoard(line);
+			long presses = sb.FindMinJoltPresses();
+			sum += presses;
+
+			done++;
+			Console.WriteLine($"A press {presses} | {done} of {lines.Count}");
+		}
+
+		return sum.ToString();
 	}
 }
