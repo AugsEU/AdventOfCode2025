@@ -135,11 +135,7 @@ internal class Day9Solver : ISolver
 	{
 		List<Point2> points = InputParser.ParsePoint2List(input);
 
-		SortedSet<(Point2, Point2)> candidates = new SortedSet<(Point2, Point2)>(
-			Comparer<(Point2, Point2)>.Create((x, y) =>
-				// Compare areas of point pairs
-				CalcArea(x).CompareTo(CalcArea(y))
-			));
+		List<(Point2, Point2)> candidates = new();
 
 		Console.WriteLine("Looking for candiates");
 		for (int i = 0; i < points.Count; i++)
@@ -156,11 +152,12 @@ internal class Day9Solver : ISolver
 			}
 		}
 
-		Console.WriteLine($"Found {candidates.Count} candidates.");
+		candidates.Sort((x, y) => CalcArea(x).CompareTo(CalcArea(y)));
 
 		while (candidates.Count > 0)
 		{
-			(Point2, Point2) maxCand = candidates.Max;
+			int lastIdx = candidates.Count - 1;
+			(Point2, Point2) maxCand = candidates[lastIdx];
 			long area = CalcArea(maxCand);
 			Console.WriteLine($"    Checking candidate {maxCand.Item1.ToString()} - {maxCand.Item2.ToString()} of area {area}");
 			if(IsTrulyAcceptableRectangle(points, maxCand.Item1, maxCand.Item2))
@@ -169,7 +166,7 @@ internal class Day9Solver : ISolver
 			}
 
 			// candidate was rejected
-			candidates.Remove(maxCand);
+			candidates.RemoveAt(lastIdx);
 		}
 
 		throw new Exception("Found no truly acceptable rectangle");
