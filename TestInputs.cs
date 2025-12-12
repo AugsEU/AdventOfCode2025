@@ -135,6 +135,57 @@ static class TestInputs
 			""",
 			expectedP1: "7",
 			expectedP2: "33"),
+		new TestData("""
+			aaa: you hhh
+			you: bbb ccc
+			bbb: ddd eee
+			ccc: ddd eee fff
+			ddd: ggg
+			eee: out
+			fff: out
+			ggg: out
+			hhh: ccc fff iii
+			iii: out
+			""",
+			expectedP1: "5",
+			expectedP2: "##"),
+		new TestData("""
+			0:
+			###
+			##.
+			##.
+
+			1:
+			###
+			##.
+			.##
+
+			2:
+			.##
+			###
+			##.
+
+			3:
+			##.
+			###
+			##.
+
+			4:
+			###
+			#..
+			###
+
+			5:
+			###
+			.#.
+			###
+
+			4x4: 0 0 0 0 2 0
+			12x5: 1 0 1 0 2 2
+			12x5: 1 0 1 0 3 2
+			""",
+			expectedP1: "2",
+			expectedP2: "##"),
 	};
 
 	public static TestData GetTest(int day)

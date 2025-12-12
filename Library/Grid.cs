@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2025;
 
-internal class Grid<T> where T : struct, IEquatable<T>
+internal class Grid<T> : IEquatable<Grid<T>> where T : struct, IEquatable<T>
 {
 	T[,] mValues;
 	T mOobDefault;
@@ -9,6 +9,12 @@ internal class Grid<T> where T : struct, IEquatable<T>
 	{
 		mValues = values;
 		mOobDefault = oobDefault;
+	}
+
+	public Grid(Grid<T> grid)
+	{
+		mValues = grid.mValues;
+		mOobDefault = grid.mOobDefault;
 	}
 
 	public static Grid<char>ParseToChars(string input, char oobDefault = '.')
@@ -98,6 +104,11 @@ internal class Grid<T> where T : struct, IEquatable<T>
 		return Get(coords.Item1, coords.Item2);
 	}
 
+	public T GetAt(Point2 coords)
+	{
+		return Get((int)coords.mX, (int)coords.mY);
+	}
+
 	public void Set(int x, int y, T value)
 	{
 		mValues[x, y] = value;
@@ -108,12 +119,28 @@ internal class Grid<T> where T : struct, IEquatable<T>
 		mValues[coords.Item1, coords.Item2] = value;
 	}
 
+	public void Set(Point2 coords, T value)
+	{
+		mValues[coords.mX, coords.mY] = value;
+	}
+
 	public (int, int)? FindFirst(T value)
 	{
 		foreach((int x, int y) in ColsRows())
 		{
 			if (mValues[x, y].Equals(value))
 				return (x, y);
+		}
+
+		return null;
+	}
+
+	public Point2? FindFirstPoint(T value)
+	{
+		foreach ((int x, int y) in ColsRows())
+		{
+			if (mValues[x, y].Equals(value))
+				return new Point2(x, y);
 		}
 
 		return null;
@@ -157,6 +184,17 @@ internal class Grid<T> where T : struct, IEquatable<T>
 		}
 	}
 
+	public IEnumerable<Point2> ColsRowsPoints()
+	{
+		for (int x = 0; x < GetWidth(); x++)
+		{
+			for (int y = 0; y < GetHeight(); y++)
+			{
+				yield return new Point2(x, y);
+			}
+		}
+	}
+
 	public IEnumerable<T> GetAdjacent(int x, int y)
 	{
 		yield return Get(x - 1, y);
@@ -179,5 +217,42 @@ internal class Grid<T> where T : struct, IEquatable<T>
 		yield return Get(coords.Item1 + 1, coords.Item2 + 1);
 		yield return Get(coords.Item1 + 1, coords.Item2 + 1);
 		yield return Get(coords.Item1 - 1, coords.Item2 + 1);
+	}
+
+	public IEnumerable<T> GetAdjacent(Point2 coords)
+	{
+		foreach(T x in GetAdjacent((int)coords.mX, (int)coords.mY))
+		{
+			yield return x;
+		}
+	}
+
+	public override int GetHashCode()
+	{
+		int hash = mOobDefault.GetHashCode();
+		hash *= 237;
+		hash ^= mValues.GetHashCode();
+
+		return hash;
+	}
+
+	public bool Equals(Grid<T>? other)
+	{
+		if (other == null)
+			return false;
+
+		if (other.mValues.GetLength(0) != mValues.GetLength(0)
+			|| other.mValues.GetLength(1) != mValues.GetLength(1))
+			return false;
+
+		foreach(Point2 pt in ColsRowsPoints())
+		{
+			if (!GetAt(pt).Equals(other.GetAt(pt)))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
